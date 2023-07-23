@@ -8,8 +8,9 @@ const secretKey =  'its-a-secret-key';
 const Admin = require('../Model/AdminSchema');
 
 // Register a new user
-router.post('/admin-register', async (req, res) => {
-  const { email, password } = req.body;
+router.post('/register', async (req, res) => {
+
+  const{ email, password }= req.body;
 
   try {
     // Check if the username is already taken
@@ -36,8 +37,8 @@ router.post('/admin-register', async (req, res) => {
 });
 
 // Authenticate a user
-router.post('/admin-login', async (req, res) => {
-    console.log("hii");
+router.post('/login', async (req, res) => {
+   console.log("hii");
   const { email, password } = req.body;
 
   try {
