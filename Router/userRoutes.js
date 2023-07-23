@@ -10,12 +10,12 @@ const secretKey =  'its-a-secret-key';
 const User = require('../Model/userSchema');
 
 // Register a new user
-router.post('/user-register', async (req, res) => {
-  const { username, password } = req.body;
+router.post('/register', async (req, res) => {
+  const {email, password } = req.body;
 
   try {
     // Check if the username is already taken
-    const existingUser = await User.findOne({ username });
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ error: 'Username is already taken.' });
     }
@@ -25,7 +25,7 @@ router.post('/user-register', async (req, res) => {
 
     // Create a new user
     const newUser = new User({
-      username,
+      email,
       password: hashedPassword,
     });
 
@@ -38,12 +38,12 @@ router.post('/user-register', async (req, res) => {
 });
 
 // Authenticate a user
-router.post('/user-login', async (req, res) => {
-  const { username, password } = req.body;
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body;
 
   try {
     // Find the user by the username
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ email });
 
     // Check if the user exists
     if (!user) {
@@ -57,7 +57,7 @@ router.post('/user-login', async (req, res) => {
     }
 
     // User is authenticated
-    const token = jwt.sign({ username, isAdmin: user.isUser }, secretKey);
+    const token = jwt.sign({ email, isAdmin: user.isUser }, secretKey);
     return res.json({ token });
   } catch (error) {
     res.status(500).json({ error: 'Server error.' });
